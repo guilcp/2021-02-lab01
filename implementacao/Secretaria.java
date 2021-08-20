@@ -5,4 +5,12 @@ class Secretaria {
 	public void gerarCurriculo(){
 		
 	}
+
+	public ArrayList<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(ArrayList<Curso> cursos) {
+		this.cursos = cursos;
+	}
 }

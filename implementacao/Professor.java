@@ -7,4 +7,12 @@ class Professor{
 		
 		return alunos;
 	}
+
+	public ArrayList<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(ArrayList<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
 }
