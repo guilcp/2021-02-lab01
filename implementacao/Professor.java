@@ -1,6 +1,12 @@
 import java.util.*;
-class Professor{
+class Professor extends Usuario{
+
 	private ArrayList<Oferta> ofertas;
+
+	//construtor
+	public Professor(int id, String nome, String senha) {
+		super(id, nome, senha);
+	}
 
 	public ArrayList<Aluno> consultarAlunos(){
 		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
@@ -14,5 +20,40 @@ class Professor{
 
 	public void setOfertas(ArrayList<Oferta> ofertas) {
 		this.ofertas = ofertas;
+	}
+
+	public boolean cadastrar(){
+		/*
+		 TODO
+		*/
+		return true;
+	}
+	
+	public boolean remover(){
+		/*
+		 TODO
+		*/
+		return true;
+	}
+	
+	public boolean atualizar(){
+		/*
+		 TODO
+		*/
+		return true;
+	}
+	
+	public boolean consultar(){
+		/*
+		 TODO
+		*/
+		return true;
+	}
+
+	@Override
+	public void autenticarLogin() {
+		/*
+		 TODO
+		*/
 	}
 }

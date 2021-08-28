@@ -1,9 +1,10 @@
 import java.util.*;
-class Secretaria {
+class Secretaria extends Usuario{
 	private ArrayList<Curso> cursos;
 
-	public void gerarCurriculo(){
-		
+	//construtor
+	public Secretaria(int id, String nome, String senha) {
+		super(id, nome, senha);
 	}
 
 	public ArrayList<Curso> getCursos() {
@@ -12,5 +13,18 @@ class Secretaria {
 
 	public void setCursos(ArrayList<Curso> cursos) {
 		this.cursos = cursos;
+	}
+
+	public void gerarCurriculo(){
+		/*
+		 TODO
+		*/
+	}
+
+	@Override
+	public void autenticarLogin() {
+		/*
+		 TODO
+		*/
 	}
 }

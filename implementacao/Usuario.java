@@ -1,7 +1,13 @@
-class Usuario {
+abstract class  Usuario implements IAutenticavel {
 	private int id;
 	private String nome;
 	private String senha;
+
+	//construtor
+	public Usuario(int id, String nome, String senha) {
+		setId(id);
+		setNome(nome);
+	}
 
 	public boolean efetuarLogin(String senha){
 		boolean resultado = false;
@@ -25,5 +31,13 @@ class Usuario {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }

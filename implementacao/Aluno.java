@@ -1,8 +1,14 @@
 import java.util.*;
 
 class Aluno extends Usuario{
+
 	private Curso curso;
 	private ArrayList<Matricula> matriculas;
+
+	//construtor
+	public Aluno(int id, String nome, String senha) {
+		super(id, nome, senha);
+	}
 
 	public Curso getCurso(){
 		return curso;
@@ -22,5 +28,24 @@ class Aluno extends Usuario{
 
 	public boolean cadastrar(){
 		return true;
+	}
+	
+	public boolean remover(){
+		return true;
+	}
+	
+	public boolean atualizar(){
+		return true;
+	}
+	
+	public boolean consultar(){
+		return true;
+	}
+
+	@Override
+	public void autenticarLogin() {
+		/*
+		 TODO
+		*/
 	}
 }
