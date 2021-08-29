@@ -1,5 +1,5 @@
 import java.util.*;
-class Secretaria extends Usuario{
+public class Secretaria extends Usuario{
 	private ArrayList<Curso> cursos;
 
 	//construtor
@@ -26,5 +26,10 @@ class Secretaria extends Usuario{
 		/*
 		 TODO
 		*/
+	}
+
+	@Override
+	public String getTipo() {
+		return this.getClass().getName().toUpperCase(Locale.ROOT);
 	}
 }

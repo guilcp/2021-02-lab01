@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Aluno extends Usuario{
+class Aluno extends Usuario {
 
 	private Curso curso;
 	private ArrayList<Matricula> matriculas;
@@ -48,4 +48,10 @@ class Aluno extends Usuario{
 		 TODO
 		*/
 	}
+
+	@Override
+	public String getTipo() {
+		return this.getClass().getName().toUpperCase(Locale.ROOT);
+	}
+
 }

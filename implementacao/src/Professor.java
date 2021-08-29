@@ -56,4 +56,10 @@ class Professor extends Usuario{
 		 TODO
 		*/
 	}
+
+	@Override
+	public String getTipo() {
+		return this.getClass().getName().toUpperCase(Locale.ROOT);
+	}
+
 }

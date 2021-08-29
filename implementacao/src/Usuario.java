@@ -1,17 +1,20 @@
-abstract class  Usuario implements IAutenticavel {
+import java.io.Serializable;
+
+public abstract class  Usuario implements IAutenticavel, Serializable {
 	private int id;
 	private String nome;
 	private String senha;
 
 	//construtor
 	public Usuario(int id, String nome, String senha) {
-		setId(id);
+		setId(id++);
 		setNome(nome);
+		setSenha(senha);
 	}
 
 	public boolean efetuarLogin(String senha){
 		boolean resultado = false;
-		if(this.senha == senha){
+		if(this.senha.equals(senha)){
 			resultado = true;
 		}
 		return resultado;
@@ -40,4 +43,6 @@ abstract class  Usuario implements IAutenticavel {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	abstract public String getTipo();
 }
