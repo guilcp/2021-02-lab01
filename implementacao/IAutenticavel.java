@@ -1,4 +1,4 @@
 public interface IAutenticavel {
 
-    public void autenticarLogin();
+    public boolean autenticarLogin();
 }

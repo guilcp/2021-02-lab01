@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Universidade {
+public class Universidade implements Serializable{
 
     private String nome;
-    private ArrayList<Curso> cursos;
+    private ArrayList<Curso> cursos = new ArrayList<Curso>();
 
 	//construtor
 	public Universidade(String nome) {
@@ -25,5 +26,13 @@ public class Universidade {
 	public void setCursos(ArrayList<Curso> cursos) {
 		this.cursos = cursos;
 	}
-    
+
+    @Override
+    public String toString() {
+        return "{" +
+            " nome='" + getNome() + "'" +
+            ", cursos='" + getCursos() + "'" +
+            "}";
+    }
+
 }

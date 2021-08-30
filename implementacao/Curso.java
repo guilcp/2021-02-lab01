@@ -1,18 +1,26 @@
 import java.util.*;
+import java.io.Serializable;
 
-class Curso {
+public class Curso  implements Serializable{
 
 	private int id;
 	private String nome;
 	private int creditosTotal;
-	private ArrayList<Disciplina> disciplinas;
+	private ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
 
 	//construtor
-	public Curso(int id, int creditosTotal, String nome, ArrayList<Disciplina> disciplinas) {
+	public Curso(int id, String nome) {
 		this.setId(id);
-		this.setCreditosTotal(creditosTotal);
 		this.setNome(nome);
-        this.setDisciplinas(disciplinas);
+		this.setCreditosTotal(0);
+        disciplinas = new ArrayList<Disciplina>();
+	}
+
+	public Curso(){
+		this.setId(-1);
+		this.setNome(null);
+		this.setCreditosTotal(0);
+        disciplinas = new ArrayList<Disciplina>();
 	}
 
 	public int getId() {
@@ -47,11 +55,23 @@ class Curso {
 		this.disciplinas = disciplinas;
 	}
 	
-	public boolean cadastrar(){
-		/*
-		 TODO
-		*/
-		return true;
+	public void addDisciplina(Disciplina d){
+		disciplinas.add(d);
+		atualizaCreditos();
+	} 
+
+	public void atualizaCreditos(){
+		int soma = 0;
+		for(Disciplina d : disciplinas){
+			soma += d.getCreditos();
+		}
+		setCreditosTotal(soma);
+	}
+
+	public void cadastrar(){
+		CursoDAO dao = new CursoDAO();
+		dao.gravar(this);
+		System.out.println("Curso cadastrado com sucesso!");
 	}
 	
 	public boolean remover(){
@@ -74,4 +94,15 @@ class Curso {
 		*/
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "{" +
+			" id='" + getId() + "'" +
+			", nome='" + getNome() + "'" +
+			", creditosTotal='" + getCreditosTotal() + "'" +
+			", disciplinas='" + getDisciplinas() + "'" +
+			"}";
+	}
+
 }
