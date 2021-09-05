@@ -1,15 +1,14 @@
 import java.io.Serializable;
 
 public abstract class  Usuario implements IAutenticavel, Serializable {
-	private int id;
 	private String nome;
 	private String senha;
 
 	//construtor
-	public Usuario(int id, String nome, String senha) {
-		setId(id++);
+	public Usuario(String nome, String senha) {
 		setNome(nome);
 		setSenha(senha);
+		DAO.usuarios.add(this);
 	}
 
 	public boolean efetuarLogin(String senha){
@@ -26,14 +25,6 @@ public abstract class  Usuario implements IAutenticavel, Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getSenha() {

@@ -1,27 +1,19 @@
+import java.io.Serializable;
 import java.util.*;
 
-class Curso {
+public class Curso implements Serializable {
 
-	private int id;
 	private String nome;
 	private int creditosTotal;
-	private ArrayList<Disciplina> disciplinas;
+	private ArrayList<Disciplina> disciplinas = new ArrayList<>();
 
 	//construtor
-	public Curso(int id, int creditosTotal, String nome, ArrayList<Disciplina> disciplinas) {
-		this.setId(id);
+	public Curso( int creditosTotal, String nome) {
 		this.setCreditosTotal(creditosTotal);
 		this.setNome(nome);
-        this.setDisciplinas(disciplinas);
+		DAO.universidade.addCurso(this);
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -46,7 +38,11 @@ class Curso {
 	public void setDisciplinas(ArrayList<Disciplina> disciplinas) {
 		this.disciplinas = disciplinas;
 	}
-	
+
+	public void addDisciplina(Disciplina d) {
+		this.disciplinas.add(d);
+	}
+
 	public boolean cadastrar(){
 		/*
 		 TODO

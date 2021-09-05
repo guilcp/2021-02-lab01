@@ -1,6 +1,7 @@
-class Disciplina {
+import java.io.Serializable;
 
-	private int id;
+public class Disciplina implements Serializable {
+
 	private String nome;
 	private boolean obrigatoria;
 	private double preco;
@@ -8,20 +9,11 @@ class Disciplina {
 	private static int maxAlunos = 60;
 
 	//construtor
-	public Disciplina(int id, String nome, boolean obrigatoria, double preco, int creditos) {
-		this.setId(id);
+	public Disciplina( String nome, boolean obrigatoria, double preco, int creditos) {
 		this.setNome(nome);
         this.setObrigatoria(obrigatoria);
 		this.setPreco(preco);
 		this.setCreditos(creditos);
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getNome() {
@@ -65,31 +57,4 @@ class Disciplina {
 	}
 
 
-	public boolean cadastrar(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
-	
-	public boolean remover(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
-	
-	public boolean atualizar(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
-	
-	public boolean consultar(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
 }

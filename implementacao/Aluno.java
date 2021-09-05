@@ -1,13 +1,14 @@
 import java.util.*;
 
-class Aluno extends Usuario {
+public class Aluno extends Usuario {
 
 	private Curso curso;
-	private ArrayList<Matricula> matriculas;
+	private ArrayList<Matricula> matriculas = new ArrayList<>();
 
 	//construtor
-	public Aluno(int id, String nome, String senha) {
-		super(id, nome, senha);
+	public Aluno(String nome, String senha, Curso curso) {
+		super(nome, senha);
+		this.curso = curso;
 	}
 
 	public Curso getCurso(){
@@ -26,21 +27,13 @@ class Aluno extends Usuario {
 		matriculas = m;
 	}
 
-	public boolean cadastrar(){
-		return true;
+	public void addMatricula(Matricula m ){
+		if (matriculas == null){
+			matriculas = new ArrayList<Matricula>();
+		}
+		this.matriculas.add(m);
 	}
-	
-	public boolean remover(){
-		return true;
-	}
-	
-	public boolean atualizar(){
-		return true;
-	}
-	
-	public boolean consultar(){
-		return true;
-	}
+
 
 	@Override
 	public void autenticarLogin() {
@@ -48,6 +41,8 @@ class Aluno extends Usuario {
 		 TODO
 		*/
 	}
+
+
 
 	@Override
 	public String getTipo() {

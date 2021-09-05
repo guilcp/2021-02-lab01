@@ -4,30 +4,14 @@ import java.util.Scanner;
 
 class Main {
 
-  private static ArrayList<Usuario> usuarios = new ArrayList<>();
-  private static Universidade universidade = Universidade.getInstance();
-
   public static void main(String[] args){
-    carregaDados();
-
-    System.out.println("Sistema de matriculas da " + universidade.getNome());
+    DAO.carregaDados();
+ 
+    System.out.println("Sistema de matriculas da " + DAO.universidade.getNome());
     logar();
 
-    salvaDados();
+    DAO.salvaDados();
 
-  }
-
-
-  static void salvaDados(){
-  UsuarioDAO.gravar(usuarios);
-  }
-
-  static void carregaDados(){
-    usuarios = UsuarioDAO.ler();
-    System.out.println("O sistema possui " + usuarios.size() + " usuarios cadastrados." );
-    if(usuarios.size() == 0) {
-      usuarios.add(new Secretaria(1, "admin", "admin"));
-    }
   }
 
   static void logar(){
@@ -39,6 +23,7 @@ class Main {
       try {
         usuario = buscaUsuario(teclado.nextLine());
         Menu.login(usuario);
+        Menu.renderizar();
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -47,7 +32,7 @@ class Main {
   }
 
   static Usuario buscaUsuario(String nome) throws Exception{
-    Optional<Usuario> usuarioOpt = usuarios.stream()
+    Optional<Usuario> usuarioOpt = DAO.usuarios.stream()
             .filter(usuario -> usuario.getNome().equalsIgnoreCase(nome))
             .findAny();
     if(usuarioOpt.isPresent()) {

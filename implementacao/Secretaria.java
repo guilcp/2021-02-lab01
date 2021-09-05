@@ -3,8 +3,8 @@ public class Secretaria extends Usuario{
 	private ArrayList<Curso> cursos;
 
 	//construtor
-	public Secretaria(int id, String nome, String senha) {
-		super(id, nome, senha);
+	public Secretaria(String nome, String senha) {
+		super( nome, senha);
 	}
 
 	public ArrayList<Curso> getCursos() {

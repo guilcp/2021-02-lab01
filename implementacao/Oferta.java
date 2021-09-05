@@ -1,27 +1,21 @@
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class Oferta {
-	private int id;
+public class Oferta implements Serializable {
 	private Professor professor;
 	private Date dataInicio;
 	private Date dataFinal;
 	private Disciplina disciplina;
 
 	//construtor
-	public Oferta(int id, Professor professor, Date dataInicio, Date dataFinal, Disciplina disciplina) {
-		this.setId(id);
+	public Oferta( Professor professor, Date dataInicio, Date dataFinal, Disciplina disciplina) {
 		this.setProfessor(professor);
 		this.setDataInicio(dataInicio);
 		this.setDataFinal(dataFinal);
 		this.setDisciplina(disciplina);
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		DAO.ofertas.add(this);
 	}
 
 	public Professor getProfessor() {
@@ -62,25 +56,37 @@ class Oferta {
 		*/
 		return true;
 	}
-	
+
 	public boolean remover(){
 		/*
 		 TODO
 		*/
 		return true;
 	}
-	
+
 	public boolean atualizar(){
 		/*
 		 TODO
 		*/
 		return true;
 	}
-	
+
 	public boolean consultar(){
 		/*
 		 TODO
 		*/
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		return "Oferta:{ " +
+				"\n disciplina= " + disciplina.getNome() +
+				"\n professor= " + professor.getNome() +
+				"\n dataInicio= " + dateFormat.format(dataInicio)+
+				"\n dataFinal= " + dateFormat.format(dataFinal)+
+				"\n}";
 	}
 }

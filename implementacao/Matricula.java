@@ -1,28 +1,20 @@
+import java.io.Serializable;
 import java.util.Date;
 
-class Matricula{
-	private int id;
+public class Matricula implements Serializable {
 	private Date data;
 	private boolean aprovacao;
 	private Oferta oferta;
 	private Aluno aluno;
 	
 	//construtor
-	public Matricula(int id, Date data, boolean aprovacao, Oferta oferta, Aluno aluno) {
-		this.setId(id);
+	public Matricula( Date data, boolean aprovacao, Oferta oferta, Aluno aluno) {
 		this.setData(data);
 		this.setAprovacao(aprovacao);
 		this.setOferta(oferta);
 		this.setAluno(aluno);
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Date getData() {
 		return data;
@@ -56,16 +48,13 @@ class Matricula{
 		this.aluno = aluno;
 	}
 
-	public void realizarMatricula() {
-		/*
-		 TODO
-		*/
+	@Override
+	public String toString() {
+		return "Matricula: {" +
+				"\ndata= " + data +
+				"\naprovacao= " + aprovacao +
+				"\noferta= " + oferta.toString() +
+				"\naluno= " + aluno.getNome() +
+				"\n}";
 	}
-
-	public void cancelarMatricula() {
-		/*
-		 TODO
-		*/
-	}
-
 }

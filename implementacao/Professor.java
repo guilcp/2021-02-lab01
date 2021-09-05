@@ -1,11 +1,11 @@
 import java.util.*;
-class Professor extends Usuario{
+public class Professor extends Usuario {
 
 	private ArrayList<Oferta> ofertas;
 
 	//construtor
-	public Professor(int id, String nome, String senha) {
-		super(id, nome, senha);
+	public Professor(String nome, String senha) {
+		super( nome, senha);
 	}
 
 	public ArrayList<Aluno> consultarAlunos(){
