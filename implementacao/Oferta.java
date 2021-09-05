@@ -8,6 +8,7 @@ public class Oferta implements Serializable {
 	private Date dataInicio;
 	private Date dataFinal;
 	private Disciplina disciplina;
+	private int qtdAlunos = 0;
 
 	//construtor
 	public Oferta( Professor professor, Date dataInicio, Date dataFinal, Disciplina disciplina) {
@@ -50,32 +51,12 @@ public class Oferta implements Serializable {
 		this.disciplina = disciplina;
 	}
 
-	public boolean cadastrar(){
-		/*
-		 TODO
-		*/
-		return true;
+	public int getQtdAlunos() {
+		return qtdAlunos;
 	}
 
-	public boolean remover(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
-
-	public boolean atualizar(){
-		/*
-		 TODO
-		*/
-		return true;
-	}
-
-	public boolean consultar(){
-		/*
-		 TODO
-		*/
-		return true;
+	public void setQtdAlunos(int qtdAlunos) {
+		this.qtdAlunos = qtdAlunos;
 	}
 
 	@Override
@@ -87,6 +68,11 @@ public class Oferta implements Serializable {
 				"\n professor= " + professor.getNome() +
 				"\n dataInicio= " + dateFormat.format(dataInicio)+
 				"\n dataFinal= " + dateFormat.format(dataFinal)+
+				"\n qtdAlunos= " + qtdAlunos +
 				"\n}";
+	}
+
+	public void iteraQtdAluno() {
+		this.qtdAlunos = qtdAlunos+1;
 	}
 }

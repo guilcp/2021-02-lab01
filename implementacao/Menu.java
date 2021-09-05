@@ -23,14 +23,14 @@ public class Menu {
         else if (userLogado instanceof Aluno) {
             menuAluno();
         }
-//        else if (usuario instanceof Professor) {
-//
-//        }
+        else if (userLogado instanceof Professor) {
+            menuProfessor();
+        }
 
 
     }
 
-    public static void login(Usuario usuario) {
+    public static void login(Usuario usuario) throws Exception {
 
         Scanner teclado = ScannerSingleton.getInstance().getTeclado();
         System.out.println("Digite a senha: ");
@@ -40,7 +40,7 @@ public class Menu {
             userLogado = usuario;
             renderizar();
         }else{
-            System.out.println("Senha inválida");
+            throw new Exception("Senha inválida");
         }
 
     }
@@ -56,14 +56,15 @@ public class Menu {
         try {
             while (opcao != 8) {
                 System.out.println("1 - Cadastrar Aluno");
-                //System.out.println("2 - Cadastrar Professor");
+                System.out.println("2 - Cadastrar Professor");
                 System.out.println("3 - Cadastrar Oferta");
                 System.out.println("4 - lista ofertas");
                 System.out.println("5 - Cadastrar Disciplina");
                 System.out.println("6 - Cadastrar Curso");
                 //System.out.println("8 vincular disciplina no curso");
+                System.out.println("7 - valida disciplinas");
                 System.out.println("8 - Sair");
-                opcao = teclado.nextInt();
+                opcao = Integer.parseInt(teclado.nextLine());
                 switchSecretaria(opcao);
             }
         }catch (InputMismatchException exception) {
@@ -99,6 +100,11 @@ public class Menu {
                     cadadastrarCurso();
                     pausa();
                     break;
+                case 7:
+                    validaDisciplinas();
+                    break;
+                case 8:
+                    break;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -116,8 +122,7 @@ public class Menu {
                 System.out.println("2 - Cancelar matricula ");
                 System.out.println("3 - listar matriculas ");
                 System.out.println("6 - Sair");
-
-                opcao = teclado.nextInt();
+                opcao = Integer.parseInt(teclado.nextLine());
                 switchAluno(opcao);
             }
         }catch (InputMismatchException exception) {
@@ -134,14 +139,54 @@ public class Menu {
                     matricular();
                     pausa();
                     break;
-
+                case 2:
+                    cancelarMatricula();
+                    pausa();
+                    break;
                 case 3:
-                    listaMatriculas();
+                    listaMatriculas((Aluno) userLogado);
                     pausa();
                     break;
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    static void menuProfessor(){
+        int opcao = 0;
+        try {
+            while( opcao != 6) {
+                System.out.println("1 - Consultar matriculas dos alunos");
+                System.out.println("6 - Sair");
+
+                opcao = Integer.parseInt(teclado.nextLine());
+                switchProfessor(opcao);
+            }
+        }catch (InputMismatchException exception) {
+            System.out.println("Favor inserir valor válido!");
+            menuSecretaria();
+        }
+    }
+
+    static void switchProfessor(int opcao){
+        try {
+            switch (opcao) {
+                case 1:
+                    listaTodasMatriculas();
+                    pausa();
+                    break;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    static void listaTodasMatriculas(){
+        for ( Usuario usuario : DAO.usuarios){
+            if (usuario instanceof Aluno){
+                listaMatriculas((Aluno)usuario);
+            }
         }
     }
 
@@ -152,37 +197,83 @@ public class Menu {
             System.out.println(" 2 - Disciplinas opcionais ");
             int opcao = teclado.nextInt();
 
-            switch (opcao) {
-                case 1:
-                    Long qtdDisciplinasObrigatorias = 0l;
+            if(opcao == 1) {
+                Long qtdDisciplinasObrigatorias = 0l;
 
-                    if(aluno.getMatriculas() != null) {
-                         qtdDisciplinasObrigatorias = aluno.getMatriculas().stream().filter(
-                                matricula -> matricula.getOferta().getDisciplina().isObrigatoria()
-                        ).count();
-                    }
-
-                    if(qtdDisciplinasObrigatorias < 4) {
-                        Oferta oferta = buscaOferta();
-
+                if (aluno.getMatriculas() != null) {
+                    qtdDisciplinasObrigatorias = aluno.getMatriculas().stream().filter(
+                            matricula -> matricula.getOferta().getDisciplina().isObrigatoria()
+                    ).count();
+                }
+                System.out.println("Quantidade de discilpinas obrigatorias matriculadas: " + qtdDisciplinasObrigatorias);
+                if (qtdDisciplinasObrigatorias < 4) {
+                    Oferta oferta = buscaOferta();
+                    int qtdAlunos = oferta.getQtdAlunos();
+                    if( qtdAlunos < 60) {
                         LocalDate lt = LocalDate.now();
                         Date agora = Date.from(lt.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         Matricula matricula = new Matricula(agora, false, oferta, aluno);
                         aluno.addMatricula(matricula);
 
-                    }else{
-                        throw new Exception("Numero de matriculas obrigatorias excedidos");
-                    }
-                    break;
+                    }else throw new Exception("Quantidade de alunos excedida " + qtdAlunos);
+
+                } else {
+                    throw new Exception("Numero de matriculas obrigatorias excedidos");
+                }
+            }
+            else if(opcao == 2){
+                Long qtdDisciplinasOpcionais= 0l;
+
+                if(aluno.getMatriculas() != null) {
+                    qtdDisciplinasOpcionais = aluno.getMatriculas().stream().filter(
+                            matricula -> matricula.getOferta().getDisciplina().isObrigatoria() == false
+                    ).count();
+                }
+
+                System.out.println("Quantidade de discilpinas opcionais matriculadas: " + qtdDisciplinasOpcionais);
+
+                if(qtdDisciplinasOpcionais < 2) {
+                    Oferta oferta = buscaOfertaOpcionais();
+                    int qtdAlunos = oferta.getQtdAlunos();
+                    if( qtdAlunos < 60) {
+                        LocalDate lt = LocalDate.now();
+                        Date agora = Date.from(lt.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                        Matricula matricula = new Matricula(agora, false, oferta, aluno);
+                        aluno.addMatricula(matricula);
+
+                    }else throw new Exception("Quantidade de alunos excedida " + qtdAlunos);
+
+                }else{
+                    throw new Exception("Numero de matriculas opcionais excedidos");
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    static void listaMatriculas(){
-        Aluno aluno = (Aluno) userLogado;
+    static void cancelarMatricula() throws Exception {
+        Aluno aluno = ((Aluno) userLogado);
+        ArrayList<Matricula> matriculas = aluno.getMatriculas();
+
+        for (int i = 0; i < matriculas.size(); i++){
+            System.out.println("Id: " + i + " - " + matriculas.get(i).getOferta().getDisciplina().getNome());
+        }
+
+        System.out.println("Digite o id da matricula cancelada");
+        int id = teclado.nextInt();
+        if(id > matriculas.size() || id < 0){
+            throw new Exception("Matricula nao encontrada com o id " + id );
+        }
+
+        aluno.getMatriculas().remove(matriculas.get(id));
+        System.out.println("Matricula cancelada com sucesso!");
+    }
+
+    static void listaMatriculas(Aluno aluno){
+
         if( aluno.getMatriculas() != null && aluno.getMatriculas().size() > 0) {
             System.out.println("Matriculas do(a) " + aluno.getNome());
             for (Matricula matricula : aluno.getMatriculas()) {
@@ -197,7 +288,6 @@ public class Menu {
         try {
 
             System.out.println("Digite o nome do aluno:");
-            teclado.nextLine();
             String nomeA = teclado.nextLine();
             System.out.println("Digite a senha do aluno:");
             String senhaA = teclado.nextLine();
@@ -274,16 +364,17 @@ public class Menu {
     }
 
     private static void cadastrarProfessor() {
-        //                    System.out.println("Digite o id do professor:");
-        //                    int idP = in.nextInt();
-        //                    System.out.println("Digite o nome do professor:");
-        //                    in.nextLine();
-        //                    String nomeP = in.nextLine();
-        //                    System.out.println("Digite a senha do professor:");
-        //                    String senhaP = in.nextLine();
-        //                    Professor p = new Professor(idP, nomeP, senhaP);
-        //                    p.cadastrar();
-        //                    renderizar(usuario, nome, senha);
+        try {
+
+            System.out.println("Digite o nome do professor:");
+            String nomeA = teclado.nextLine();
+            System.out.println("Digite a senha do professor:");
+            String senhaA = teclado.nextLine();
+            new Professor( nomeA, senhaA);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private static void listaOfertas(){
@@ -342,9 +433,10 @@ public class Menu {
         }
 
         System.out.println("Digite o nome do curso: ");
+        String nome = teclado.nextLine();
         Optional<Curso> curso = DAO.cursos.stream()
                 .filter(c -> c.getNome()
-                        .equalsIgnoreCase(teclado.nextLine())
+                        .equalsIgnoreCase(nome)
                 ).findAny();
         if (!curso.isPresent()){
             throw new Exception("Curso não encontrado");
@@ -368,6 +460,37 @@ public class Menu {
         }
 
         return DAO.ofertas.get(i);
+    }
+
+    static Oferta buscaOfertaOpcionais() throws Exception {
+        int i = 0;
+
+        System.out.println("Ofertas disponiveis: ");
+        for( i = 0; i < DAO.ofertas.size(); i++  ){
+            if(DAO.ofertas.get(i).getDisciplina().isObrigatoria() == false) {
+                System.out.println("Id: " + i + " - " + DAO.ofertas.get(i).toString());
+            }
+        }
+
+        System.out.println("Digite o id desta oferta: ");
+        i = teclado.nextInt();
+        if(i > DAO.ofertas.size() || i < 0){
+            throw new Exception("Oferta nao encontrada com o id " + i );
+        }
+
+        return DAO.ofertas.get(i);
+    }
+
+    static void validaDisciplinas(){
+        for (Oferta oferta : DAO.ofertas){
+            System.out.println( oferta.getDisciplina().getNome() + " qtd alunos : " + oferta.getQtdAlunos());
+            if( oferta.getQtdAlunos() > 3){
+                System.out.println("DISCIPLINA ATIVA");
+            }else{
+                System.out.println("DISCIPLINA DESATIVADA");
+            }
+        }
+
     }
 
 

@@ -23,8 +23,8 @@ class Main {
       try {
         usuario = buscaUsuario(teclado.nextLine());
         Menu.login(usuario);
-        Menu.renderizar();
       } catch (Exception e) {
+        usuario = null;
         System.out.println(e);
       }
     }

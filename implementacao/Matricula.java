@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Matricula implements Serializable {
@@ -13,6 +15,7 @@ public class Matricula implements Serializable {
 		this.setAprovacao(aprovacao);
 		this.setOferta(oferta);
 		this.setAluno(aluno);
+		oferta.iteraQtdAluno();
 	}
 
 
@@ -50,8 +53,9 @@ public class Matricula implements Serializable {
 
 	@Override
 	public String toString() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return "Matricula: {" +
-				"\ndata= " + data +
+				"\ndata= " + dateFormat.format(data) +
 				"\naprovacao= " + aprovacao +
 				"\noferta= " + oferta.toString() +
 				"\naluno= " + aluno.getNome() +

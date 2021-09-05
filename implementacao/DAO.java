@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -33,32 +34,42 @@ public class DAO {
         //nome dos usuarios
         System.out.println(usuarios.stream().map(Usuario::getNome).collect(Collectors.joining(", ")));
 
-        //System.out.println(usuarios.get(0).getNome());
         System.out.println("N° de ofertas = "+ ofertas.size());
-        //System.out.println(ofertas.get(0).getDisciplina().getNome());
-        //System.out.println(ofertas.get(0).getProfessor().getNome());
+
         System.out.println(universidade.toString());
 
     }
 
     static void populaDAO(){
+        try {
+            if (ofertas.size() == 0 || usuarios.size() == 0) {
+                Professor professor = new Professor("joao", "joao");
+                Professor professor2 = new Professor("andre", "andre");
 
-        if(usuarios.size() == 0) {
-            usuarios.add(new Secretaria("admin", "admin"));
-        }
-        if(ofertas.size() == 0){
-            Professor professor = new Professor( "joao", "joao");
-            Professor professor2 = new Professor( "andre", "andre");
+                Disciplina d = new Disciplina("Projeto de software", true, 300.0, 20);
+                Disciplina d2 = new Disciplina("Redes de computadores", true, 300.0, 20);
 
-            Disciplina d = new Disciplina("Projeto de software", true, 300.0, 20);
-            Disciplina d2 = new Disciplina("Redes de computadores", true, 300.0, 20);
+                Curso curso = new Curso(200, "Engenharia de software");
+                curso.addDisciplina(d);
+                curso.addDisciplina(d2);
 
-            Curso curso = new Curso(200, "Engenharia de software");
-            curso.addDisciplina(d);
-            curso.addDisciplina(d2);
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-            new Oferta(professor, new Date(2021, 8, 01), new Date(2021, 12, 25), d);
-            new Oferta(professor2, new Date(2021, 8, 01), new Date(2021, 12, 25), d2);
+                Date dataFormatada = formato.parse("25/12/2021");
+
+                new Oferta(professor, formato.parse("01/08/2021"), formato.parse("25/12/2021"), d);
+                new Oferta(professor2, formato.parse("01/08/2021"), formato.parse("25/12/2021"), d2);
+
+
+                new Secretaria("admin", "admin");
+                new Aluno("aluno1", "aluno1", curso);
+                new Aluno("aluno2", "aluno2", curso);
+                new Aluno("aluno3", "aluno3", curso);
+
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }
